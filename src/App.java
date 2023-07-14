@@ -33,5 +33,15 @@ public class App {
         System.out.println("The amount of words that ends with 'y' is: "+ LastLetterCount.countEndsWithY(sentenceFour));
         // Switch the first word that ends with 's' with the first word that ends with 'y' and print the result
         System.out.println("The switch is: "+ LastLetterCount.switchFirstWordSforY(sentenceFour));
+
+        System.out.println("-----------------------------------------");
+
+        String sentenceFive = "Apple";
+        // Rotate the string by a number of places characters to the right
+        System.out.println("The roteted string is: "+RotateString.rotateString(2, sentenceFive));
+
+        System.out.println("-----------------------------------------");
+
+        
     }
 }
