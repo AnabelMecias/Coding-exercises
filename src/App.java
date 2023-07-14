@@ -42,6 +42,10 @@ public class App {
 
         System.out.println("-----------------------------------------");
 
-        
+        int[] numbs = {1,1,1,1,2,3,4,6,6,7,4,9,7,6,5,4};
+        Occurrences.occurrences(numbs).forEach((key, value) -> {
+            System.out.print(key+":"+value);
+            System.out.print(",");
+        });
     }
 }
