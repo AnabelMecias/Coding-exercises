@@ -47,5 +47,11 @@ public class App {
             System.out.print(key+":"+value);
             System.out.print(",");
         });
+
+        System.out.println("-----------------------------------------");
+
+        String sentenceSix = "racecar";
+        // Print the unique values of the sentence
+        System.out.println("The unique elements are: "+TraverseString.traveString(sentenceSix));
     }
 }
