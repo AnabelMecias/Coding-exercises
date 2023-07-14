@@ -23,5 +23,15 @@ public class App {
         System.out.println("The amount of consonants in \""+sentenceThree+"\" is: "+Consonants.countConsonants(sentenceThree));
         // Print the new sentence with replaced consonants.
         System.out.println("The new sentence is: "+Consonants.replaceConsonants(sentenceThree));
+
+        System.out.println("-----------------------------------------");
+
+        String sentenceFour = "This is used for any tool and technology";
+        // Print the count of words that end with 's'
+        System.out.println("The amount of words that ends with 's' is: "+ LastLetterCount.countEndsWithS(sentenceFour));
+        // Print the count of words that end with 'y'
+        System.out.println("The amount of words that ends with 'y' is: "+ LastLetterCount.countEndsWithY(sentenceFour));
+        // Switch the first word that ends with 's' with the first word that ends with 'y' and print the result
+        System.out.println("The switch is: "+ LastLetterCount.switchFirstWordSforY(sentenceFour));
     }
 }
