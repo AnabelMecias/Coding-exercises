@@ -1,4 +1,8 @@
-import com.coding.ShoppingCart.Product;
+
+
+import java.io.Console;
+import java.util.Scanner;
+
 import com.coding.ShoppingCart.ShoppingCart;
 import com.coding.exercises.Consonants;
 import com.coding.exercises.LastLetterCount;
@@ -11,31 +15,40 @@ import com.coding.exercises.Words;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        ShoppingCart cart = new ShoppingCart("Anabel Shopping Cart");
 
-        Product product1 = new Product(1, "T-Shirt", 19.99f, 0.0f, "A basic cotton t-shirt", 0);
-        Product product2 = new Product(2, "Jeans", 59.99f, 0.2f, "Slim-fit denim jeans",0);
-        Product product3 = new Product(3, "Sneakers", 79.99f, 0.1f, "Running shoes with cushioned soles",0);
-        Product product4 = new Product(4, "Backpack", 39.99f, 0.15f, "Spacious backpack with multiple compartments",0);
-        Product product5 = new Product(5, "Watch", 99.99f, 0.05f, "Water-resistant wristwatch with leather strap",0);
+        ShoppingCart cart = new ShoppingCart("Anabel");
+        Scanner scanner = new Scanner(System.in);
 
-        cart.addProduct(product1);
-        cart.addProduct(product2);
-        cart.addProduct(product3);
-        cart.addProduct(product4);
-        cart.addProduct(product5);
+        boolean exit = false;
+        while(!exit){
+            System.out.println("==== Shopping Cart Menu ====");
+            System.out.println("1. Show Subtotal Balance");
+            System.out.println("2. Add Product");
+            System.out.println("3. Delete Product");
+            System.out.println("4. Exit");
 
-        System.out.println("\n-------------------------------------");
+            System.out.print("Enter your choice: ");
+            int option = scanner.nextInt();
+            switch (option) {
+                case 1:
+                    System.out.println("Subtotal: "+cart.getSubTotal());                    
+                    break;
+                case 2:
+                    System.out.println("");
+                    break;
+                case 3:
+                    
+                    break;
+                case 4:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Try again!");
+                    break;
+            }
+        }
+        System.out.println("Thank you for using the shopping cart!");
         
-        cart.showProducts();
-        System.out.println("The subtotal is "+cart.getSubTotal());
-        System.out.println("The total of items is "+cart.getProductsQuantity());
-
-        cart.deleteProduct(product5);
-        cart.editProductQuantity(product3, 5);
-        cart.showProductsAlphabetical();
-        cart.showProducts();
-
         // // Print the sentence along with the count of vowels in it.
         // String sentence = "Anabel";
         // System.out.println("The amount of vowels in "+sentence+" is: "+Vowels.countVowels(sentence));

@@ -7,7 +7,7 @@ import java.util.Comparator;
 public class ShoppingCart {
     private String shoppingCartName;
     private ArrayList<Product> products;
-    private float subTotal;
+    private double subTotal;
     private int productsQuantity;
     private double salesTax;
 
@@ -35,11 +35,11 @@ public class ShoppingCart {
         this.products = products;
     }
 
-    public float getSubTotal() {
+    public double getSubTotal() {
         return subTotal;
     }
 
-    public void setSubTotal(float subTotal) {
+    public void setSubTotal(double subTotal) {
         this.subTotal = subTotal;
     }
 
@@ -55,10 +55,15 @@ public class ShoppingCart {
         return subTotal * 0.1;
     }
 
+    public void setSalesTax(double salesTax) {
+        this.salesTax = salesTax;
+    }
+
     public void addProduct(Product prd) {
             products.add(prd);
             productsQuantity ++;
             subTotal = subTotal + prd.getPrice();
+            salesTax = subTotal*0.1;
             System.out.println("Product added: " + prd);
     }
 
@@ -71,6 +76,7 @@ public class ShoppingCart {
                 products.remove(prd);
                 productsQuantity --;
                 subTotal = subTotal - prd.getPrice();
+                salesTax = subTotal*0.1;
                 System.out.println("Delete product: "+prd);
                 System.out.println("Shopping cart: "+shoppingCartName+" - Products quantity: "+productsQuantity);
             }else{
@@ -103,6 +109,10 @@ public class ShoppingCart {
         for (int i = 0; i < products.size(); i++) {
             System.out.println(products.get(i));
         }
+    }
+
+    public void showShoppingCartDetails(){
+        System.out.println("Shopping Cart \""+shoppingCartName+ "\" details: Subtotal= "+subTotal+" Products Quentity= "+productsQuantity+" Sales Tax= "+salesTax);
     }
 
     // Attributes or Variables
