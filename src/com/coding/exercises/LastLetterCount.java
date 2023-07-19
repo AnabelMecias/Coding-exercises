@@ -1,3 +1,4 @@
+package com.coding.exercises;
 public class LastLetterCount {
     public static int countEndsWithS(String sentence) {
         int countEndsWithS = 0;

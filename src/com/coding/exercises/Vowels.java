@@ -1,3 +1,4 @@
+package com.coding.exercises;
 public class Vowels {
     public static int countVowels(String sentence)
     {

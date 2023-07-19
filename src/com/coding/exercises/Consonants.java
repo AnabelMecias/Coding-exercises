@@ -1,3 +1,5 @@
+package com.coding.exercises;
+
 public class Consonants {
     public static int countConsonants (String sentence){
         if(sentence.length() == 0) return 0;
