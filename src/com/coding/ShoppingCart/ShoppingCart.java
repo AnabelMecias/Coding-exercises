@@ -39,24 +39,13 @@ public class ShoppingCart {
         return subTotal;
     }
 
-    public void setSubTotal(double subTotal) {
-        this.subTotal = subTotal;
-    }
-
     public int getProductsQuantity() {
         return productsQuantity;
     }
 
-    public void setProductsQuantity(int productsQuantity) {
-        this.productsQuantity = productsQuantity;
-    }
 
     public double getSalesTax() {
         return subTotal * 0.1;
-    }
-
-    public void setSalesTax(double salesTax) {
-        this.salesTax = salesTax;
     }
 
     public void addProduct(Product prd) {

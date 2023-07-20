@@ -48,6 +48,7 @@ public class App {
             }
         }
         System.out.println("Thank you for using the shopping cart!");
+        scanner.close();
         
         // // Print the sentence along with the count of vowels in it.
         // String sentence = "Anabel";
