@@ -6,7 +6,24 @@ public class Product {
 	private float price;
 	private float discount;
 	private String description;
-	private int productLimitQuantity;
+	private int productQuantity;
+	private int productQuantityLimit;
+
+	public int getProductQuantity() {
+		return productQuantity;
+	}
+
+	public void setProductQuantity(int productQuantity) {
+		this.productQuantity = productQuantity;
+	}
+
+	public int getProductQuantityLimit() {
+		return productQuantityLimit;
+	}
+
+	public void setProductQuantityLimit(int productQuantityLimit) {
+		this.productQuantityLimit = productQuantityLimit;
+	}
 
 	public int getProductID() {
 		return productID;
@@ -49,26 +66,32 @@ public class Product {
 	}
 
 	public int getProductLimitQuantity() {
-		return productLimitQuantity;
+		return productQuantity;
 	}
 
-	public void setProductLimitQuantity(int productLimitQuantity) {
-		this.productLimitQuantity = productLimitQuantity;
+	public void setProductLimitQuantity(int productQuantity) {
+		this.productQuantity = productQuantity;
 	}
+
+	
 
 	public Product(int productID, String productName, float price, float discount, String description,
-			int productLimitQuantity) {
+			int productQuantity, int productQuantityLimit) {
 		this.productID = productID;
 		this.productName = productName;
 		this.price = price;
 		this.discount = discount;
 		this.description = description;
-		this.productLimitQuantity = productLimitQuantity;
+		this.productQuantity = productQuantity;
+		this.productQuantityLimit = productQuantityLimit;
 	}
 
 	@Override
 	public String toString() {
 		return "Product [productID=" + productID + ", productName=" + productName + ", price=" + price + ", discount="
-				+ discount + ", description=" + description + ", productLimitQuantity=" + productLimitQuantity + "]";
+				+ discount + ", description=" + description + ", productQuantity=" + productQuantity
+				+ ", productQuantityLimit=" + productQuantityLimit + "]";
 	}
+
+	
 }

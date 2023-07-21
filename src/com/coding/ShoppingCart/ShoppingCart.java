@@ -1,22 +1,32 @@
 package com.coding.ShoppingCart;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class ShoppingCart {
     private String shoppingCartName;
-    private ArrayList<Product> products;
-    private double subTotal;
-    private int productsQuantity;
+    private LinkedList<Product> products;
+    private int productsInCart;
+    private int productsQuantityLimit;
     private double salesTax;
+    private Store store;
 
-    public ShoppingCart(String shoppingCartName) {
+    public int getProductsQuantityLimit() {
+        return productsQuantityLimit;
+    }
+
+    public ShoppingCart(String shoppingCartName, Store store) {
         this.shoppingCartName = shoppingCartName;
-        products = new ArrayList<>();
-        this.subTotal = 0;
-        this.salesTax = 0;
-        this.productsQuantity = 0;
+        products = new LinkedList<>();
+        this.salesTax = 0.1;
+        this.productsQuantityLimit = 10;
+        this.store = store;
+        this.productsInCart = 0;
+    }
+
+    public int getProductQuantity() {
+        return products.size();
     }
 
     public String getShoppingCartName() {
@@ -27,86 +37,175 @@ public class ShoppingCart {
         this.shoppingCartName = shoppingCartName;
     }
 
-    public ArrayList<Product> getProducts() {
+    public LinkedList<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(LinkedList<Product> products) {
         this.products = products;
     }
 
     public double getSubTotal() {
-        return subTotal;
+        int count = 0;
+        for (Product product : products) {
+            count += product.getPrice()*product.getProductQuantity();
+        }
+        return count;
     }
 
-    public int getProductsQuantity() {
-        return productsQuantity;
+    public int getproductsQuantityLimit() {
+        return productsQuantityLimit;
     }
 
+    public double getTotalTax() {
+        return getSubTotal() * salesTax;
+    }
 
     public double getSalesTax() {
-        return subTotal * 0.1;
+        return salesTax;
     }
 
-    public void addProduct(Product prd) {
-            products.add(prd);
-            productsQuantity ++;
-            subTotal = subTotal + prd.getPrice();
-            salesTax = subTotal*0.1;
-            System.out.println("Product added: " + prd);
+    public void setSalesTax(double salesTax) {
+        this.salesTax = salesTax;
     }
 
-    public void deleteProduct(Product prd) {
-        if (productsQuantity == 0) {
+    public int getProductsInCart() {
+        return productsInCart;
+    }
+
+    public void setProductsInCart(int productsInCart) {
+        this.productsInCart = productsInCart;
+    }
+
+    public void setProductsQuantityLimit(int productsQuantityLimit) {
+        this.productsQuantityLimit = productsQuantityLimit;
+    }
+
+    public void addProduct(String prdName, int quantity) {
+        if ((productsInCart + quantity) <= productsQuantityLimit) {
+            Product prd = searchProductInShoppingCart(prdName);
+            if (prd != null) {
+                int pos = products.indexOf(prd);
+                Product product = products.get(pos);
+                if ((product.getProductQuantity() + quantity) <= product.getProductQuantityLimit()) {
+                    product.setProductQuantity(product.getProductQuantity() + quantity);
+                    System.out.println("Product added: " + quantity + " " + prdName);
+                    productsInCart += quantity;
+                } else {
+                    System.out.println("You reached the limit of " + product.getProductQuantityLimit()
+                            + " of the product " + prdName + " in your cart");
+                }
+            } else {
+                Product product = store.searchProductInInventory(prdName);
+                if (product != null) {
+                    if ((product.getProductQuantity() + quantity) <= product.getProductQuantityLimit()) {
+                        product.setProductQuantity(quantity);
+                        products.add(product);
+                        System.out.println("Product added: " + quantity + " " + prdName);
+                        productsInCart += quantity;
+                    } else {
+                        System.out.println("You reached the limit of " + product.getProductQuantityLimit()
+                                + " of the product " + prdName + " in your cart");
+                    }
+                } else {
+                    System.out.println("The product you entered " + prdName
+                            + " does not exist in the store's inventory. Please check the product name and try again.");
+                }
+            }
+        } else {
+            System.out.println("You reached the limit of " + productsQuantityLimit + " products in your cart");
+        }
+    }
+
+    public void deleteProduct(String prdName, int quantity) {
+        if (products.isEmpty()) {
             System.out.println("The shopping cart is empty");
-            System.out.println("Shopping cart: "+shoppingCartName+" - Products quantity: "+productsQuantity);
-        }else{
-            if (products.contains(prd)) {
-                products.remove(prd);
-                productsQuantity --;
-                subTotal = subTotal - prd.getPrice();
-                salesTax = subTotal*0.1;
-                System.out.println("Delete product: "+prd);
-                System.out.println("Shopping cart: "+shoppingCartName+" - Products quantity: "+productsQuantity);
-            }else{
+        } else {
+            Product prd = searchProductInShoppingCart(prdName);
+            if (prd != null) {
+                if ((prd.getProductQuantity() - quantity) <= 0) {
+                    products.remove(prd);
+                    if ((prd.getProductQuantity() - quantity) < 0) {
+                        System.out.println("The quantity of " + quantity + " of product " + prdName
+                                + " is more than the amount in the cart " + prd.getProductQuantity()
+                                + " . The product is going to be remove completly");
+                        System.out.println("Deleted product: " + prd.getProductQuantity() + " of " + prdName
+                                + " from shopping cart");
+                        productsInCart -= prd.getProductQuantity();
+                    } else {
+                        System.out.println("Deleted product: " + quantity + " " + prdName + " from shopping cart");
+                        productsInCart -= quantity;
+                    }
+                } else if ((prd.getProductQuantity() - quantity) > 0) {
+                    prd.setProductQuantity(prd.getProductQuantity() - quantity);
+                    System.out.println("Deleted product: " + quantity + " " + prdName + " from shopping cart");
+                    productsInCart -= quantity;
+                }
+            } else {
                 System.out.println("The product is not in the shopping cart");
-                System.out.println("Shopping cart: "+shoppingCartName+" - Products quantity: "+productsQuantity);
-            }            
+            }
+        }
+        System.out.println("Shopping cart: " + shoppingCartName + " - Products quantity: " + productsInCart);
+    }
+
+    public Product searchProductInShoppingCart(String prdName) {
+        for (Product product : products) {
+            if (product.getProductName().equals(prdName)) {
+                return product;
+            }
+        }
+        return null;
+    }    
+
+    public void editProductQuantity(String prdName, int quantity) {
+        if (products.isEmpty()) {
+            System.out.println("The shopping cart is empty");
+            System.out.println("Shopping cart: " + shoppingCartName + " - Products quantity: " + productsInCart);
+        } else {
+            Product prd = searchProductInShoppingCart(prdName);
+            if (prd != null) {
+                int pos = products.indexOf(prd);
+                Product product = products.get(pos);
+                if (quantity <= product.getProductQuantityLimit()) {
+                    productsInCart -= product.getProductQuantity();
+                    product.setProductQuantity(quantity);
+                    System.out.println("Product quantity updated: " + quantity + " " + prdName);
+                    productsInCart += quantity;
+                }else {
+                    System.out.println("You reached the limit of " + product.getProductQuantityLimit()
+                            + " of the product " + prdName + " in your cart");
+                }
+            }else{
+                 System.out.println("The product is not in the shopping cart");
+            }
         }
     }
 
-    public void editProductQuantity(Product product, int quantity){
-        if(products.contains(product)){
-            product.setProductLimitQuantity(quantity);
-            System.out.println("Product "+product.getProductName()+" product quantity updated to "+product.getProductLimitQuantity());
-        }else{
-            System.out.println("The product is not in the shopping cart");
-        }
-    }
-
-    public void showProductsAlphabetical(){
+    public void showProductsAlphabetical() {
         System.out.println("Products in Shopping Cart alphabetical:");
-        ArrayList<Product> productsList = new ArrayList<>(products);
+        LinkedList<Product> productsList = new LinkedList<>(products);
         Collections.sort(productsList, Comparator.comparing(Product::getProductName));
         for (int i = 0; i < productsList.size(); i++) {
             System.out.println(productsList.get(i));
         }
     }
-    public void showProducts() {
+
+    public void showProductsInCart() {
         System.out.println("Products in Shopping Cart:");
 
-        for (int i = 0; i < products.size(); i++) {
-            System.out.println(products.get(i));
+        for (Product product : products) {
+            System.out.println(product);
         }
     }
 
-    public void showShoppingCartDetails(){
-        System.out.println("Shopping Cart \""+shoppingCartName+ "\" details: Subtotal= "+subTotal+" Products Quentity= "+productsQuantity+" Sales Tax= "+salesTax);
+    public void showShoppingCartDetails() {
+        System.out.println("Shopping Cart \"" + shoppingCartName + "\" details: Subtotal= " + getSubTotal()
+                + " Products Quantity= " + productsInCart + " Sales Tax= " + getTotalTax());
     }
 
     // Attributes or Variables
     // Total of Cart
-    // List of all items in the cart -- Data Structure (Array, ArrayList..)
+    // List of all items in the cart -- Data Structure (Array, LinkedList..)
     // Name of Cart
     // Order ID
     // Sales Tax
